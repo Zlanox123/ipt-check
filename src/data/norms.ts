@@ -1,0 +1,21 @@
+import { bolloTerritories } from './bolloRules';
+
+export interface NormSource { id:string; title:string; authority:string; url:string; verifiedOn:string; scope:'national'|'territorial'; notes:string; }
+export const norms: NormSource[] = [
+ {id:'L449-1997-A8',title:'Legge 27 dicembre 1997, n. 449, art. 8',authority:'Normattiva',url:'https://www.normattiva.it/eli/stato/LEGGE/1997/12/27/449/CONSOLIDATED',verifiedOn:'2026-11-10',scope:'national',notes:'Agevolazioni per veicoli destinati a persone con disabilità e rinvio alle categorie di veicoli.'},
+ {id:'L388-2000-A30',title:'Legge 23 dicembre 2000, n. 388, art. 30, comma 7',authority:'Normattiva',url:'https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=000G0441&atto.dataPubblicazioneGazzetta=2000-12-29&tipoDettaglio=multivigenza',verifiedOn:'2026-11-10',scope:'national',notes:'Estensione delle agevolazioni a specifiche categorie di disabilità.'},
+ {id:'AE-GUIDA',title:'Agevolazioni fiscali per le persone con disabilità – veicoli',authority:'Agenzia delle Entrate',url:'https://www1.agenziaentrate.gov.it/web_app_entrate/agevolazioni_disabilita.html',verifiedOn:'2026-11-10',scope:'national',notes:'Requisiti, limiti del veicolo, intestazione, carico fiscale e documentazione.'},
+ {id:'ACI-IPT',title:'Esenzioni IPT: veicoli destinati alle persone con disabilità',authority:'ACI',url:'https://aci.gov.it/pratica-auto/esenzioni-ipt-veicoli-destinati-alle-persone-con-disabilita/',verifiedOn:'2026-11-10',scope:'national',notes:'Categorie, condizioni e documentazione per l’esenzione IPT.'},
+ {id:'ACI-FAQ',title:'FAQ IPT',authority:'ACI',url:'https://aci.gov.it/approfondimento/disabilita-e-diritto-alla-mobilita/faq-ipt/',verifiedOn:'2026-11-10',scope:'national',notes:'Chiarimenti distinti per IPT ed emolumenti PRA.'}
+ ,{id:'DM-2013-PRA',title:'Decreto ministeriale 21 marzo 2013 – esenzione emolumenti PRA',authority:'ACI / Gazzetta Ufficiale',url:'https://aci.gov.it/approfondimento/disabilita-e-diritto-alla-mobilita/esenzione-emolumenti-al-pubblico-registro-automobilistico-pra/',verifiedOn:'2026-11-10',scope:'national',notes:'Esenzione emolumenti ACI e categorie sanitarie ammesse.'}
+ ,{id:'ACI-PRESUPPOSTI',title:'Presupposti e decadenza del diritto',authority:'ACI',url:'https://aci.gov.it/approfondimento/disabilita-e-diritto-alla-mobilita/presupposti-e-decadenza-del-diritto/',verifiedOn:'2026-11-10',scope:'national',notes:'Intestazione, carico fiscale e limiti reddituali.'}
+ ,{id:'ACI-BOLLO',title:'Esenzione bollo auto per persone con disabilità',authority:'ACI',url:'https://aci.gov.it/approfondimento/disabilita-e-diritto-alla-mobilita/esenzione-pagamento-tassa-automobilistica-bollo-per-le-persone-con-disabilita/',verifiedOn:'2026-11-10',scope:'national',notes:'Categorie, veicoli, limiti, intestazione e procedura nazionale; pagina aggiornata il 24/02/2026.'}
+ ,{id:'ACI-IPT-TERRITORIAL',title:'Agevolazioni IPT provinciali per disabilità sensoriali o altre patologie',authority:'ACI',url:'https://aci.gov.it/pratica-auto/agevolazioni-ipt-veicoli-destinati-alle-persone-con-disabilita-sensoriali-o-patologie-non-ricomprese-nella-normativa-nazionale/',verifiedOn:'2026-11-10',scope:'territorial',notes:'Esenzioni e riduzioni deliberate dalle Province; pagina aggiornata il 28/10/2026.'},
+ ...bolloTerritories.filter(x=>x.status!=='unverified').map(x=>({id:`BOLLO-${x.id}`,title:`Bollo auto – ${x.territory}`,authority:x.sourceTitle,url:x.url,verifiedOn:x.verifiedOn,scope:'territorial' as const,notes:`Validità: ${x.validFrom??'non determinata'}. Stato: ${x.status}. ${x.procedure}`}))
+];
+export const regions = ['Abruzzo','Basilicata','Calabria','Campania','Emilia-Romagna','Friuli Venezia Giulia','Lazio','Liguria','Lombardia','Marche','Molise','Piemonte','Puglia','Sardegna','Sicilia','Toscana','Trentino-Alto Adige','Umbria','Valle d’Aosta','Veneto'];
+export const territorialCoverage = regions.map(region => {
+ const rule=bolloTerritories.find(x=>x.territory===region);
+ return {region,status:rule?.status??'unverified',note:rule?.status==='national-only'?'Disciplina nazionale verificata; eventuali estensioni territoriali non validate.':rule?'Fonte territoriale verificata.':'Fonte territoriale non verificata.'};
+});
+

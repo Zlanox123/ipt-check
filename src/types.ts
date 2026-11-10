@@ -1,0 +1,6 @@
+export type Outcome = 'eligible' | 'not-eligible' | 'insufficient' | 'unverified';
+export type Benefit = 'ipt' | 'pra' | 'bollo';
+export type Disability = 'blind'|'deaf'|'psychic'|'motor-severe'|'motor-reduced'|'walking-severe'|'pluriamputation'|'none'|'unknown';
+export type Fuel = 'petrol'|'diesel'|'hybrid'|'electric'|'other';
+export interface CaseData { disability: Disability; law104Severe: boolean|null; art381?:boolean|null; accompaniment: boolean|null; permanentMotorLimitation: boolean|null; downSyndrome?:boolean|null; owner: 'person'|'family'|'other'|'unknown'; dependent: boolean|null; dependentIncome?:number; dependentIsChild?:boolean|null; dependentAge?:number; disabledAge?:number; adapted: boolean|null; adaptationOnRegistration: boolean|null; fuel: Fuel; hybridType?:'petrol'|'diesel'; displacement?: number; powerKw?: number; vehicleCategory: 'car'|'mixed'|'specific'|'motorcycle'|'camper'|'quadricycle'|'other'|'unknown'; region: string; province: string; oneVehicleOnly: boolean|null; previousVehicleStolen?:boolean|null; lossOfPossessionRecorded?:boolean|null; documentText: string; manualRules: string; }
+export interface Decision { benefit: Benefit; outcome: Outcome; title: string; reasons: string[]; missing: string[]; sources: string[]; validity: string; }
